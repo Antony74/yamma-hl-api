@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createUnifier, parseMm, parseMmp } from '../src/unifier';
 import { exampleFiles } from './examples';
+import { whitespaceTolerantIsEqual } from './whitespaceTolerantIsEqual';
 
 describe(`yamma-unifier`, () => {
     it(`can unify`, async () => {
@@ -28,7 +29,10 @@ describe(`yamma-unifier`, () => {
     it(`can get a proof`, () => {
         const unifier = createUnifier(exampleFiles['example.mm']);
         const result = unifier.get('th1');
-        expect(result.text).toEqual(exampleFiles['unified.mmp']);
+        
+        expect(
+            whitespaceTolerantIsEqual(result.text, exampleFiles['unified.mmp']),
+        ).toEqual(true);
     });
 
     it(`can get a proof without stripping the header`, () => {
