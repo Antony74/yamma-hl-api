@@ -14,15 +14,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Antony74/yamma-unifier.git"
+        "url": "git+https://github.com/Antony74/yamma-hl-api.git"
     },
     "keywords": [],
     "author": "Antony74",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Antony74/yamma-unifier/issues"
+        "url": "https://github.com/Antony74/yamma-hl-api/issues"
     },
-    "homepage": "https://github.com/Antony74/yamma-unifier#readme",
+    "homepage": "https://github.com/Antony74/yamma-hl-api#readme",
     "description": "High level api for Yamma's unifier (Yamma's A MetaMath proof Assistant)",
     "devDependencies": {
         "@types/nearley": "^2.11.5",
