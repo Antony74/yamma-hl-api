@@ -8,4 +8,10 @@ describe(`truncateAfter`, () => {
         const result = truncateAfter(exampleFiles['example.mm'], 'th1');
         expect(result).toEqual(exampleFiles['example-truncated.mm']);
     });
+
+    it(`throw if the proof it is supposed to truncateAfter does not exist`, () => {
+        expect(() => truncateAfter(exampleFiles['example.mm'], 'thz')).toThrow(
+            'proofId thz was not found',
+        );
+    });
 });
