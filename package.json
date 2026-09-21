@@ -2,9 +2,6 @@
     "name": "yamma-hl-api",
     "version": "1.0.0",
     "main": "dist/index.js",
-    "bin": {
-        "yamma": "dist/index.js"
-    },
     "scripts": {
         "build": "rimraf dist && node build.js && tsc",
         "doc": "rimraf docs && typedoc",
