@@ -19,5 +19,6 @@
         "yamma",
         "**/*.mm",
         "**/*.mmp"
-    ]
+    ],
+    "cSpell.ignoreRegExpList": ["name=\".*\""]
 }
