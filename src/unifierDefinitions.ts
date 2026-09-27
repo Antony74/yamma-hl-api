@@ -41,7 +41,7 @@ export type MmpUnifierConfig = Omit<
     'mmpParser' | 'proofMode'
 >;
 
-type UnifierConfigCommon = {
+export type UnifierConfigCommon = {
     proofMode: ProofMode;
     variableKindsConfig: VariableKindConfig[];
 };

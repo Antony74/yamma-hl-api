@@ -1,6 +1,7 @@
 {
     "entryPoints": ["src/*"],
     "entryPointStrategy": "expand",
+    "exclude": ["yamma/**"],
     "excludeExternals": true,
     "excludePrivate": true,
     "plugin": ["typedoc-plugin-markdown"],
