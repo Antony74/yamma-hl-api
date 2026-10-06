@@ -4,11 +4,30 @@ import fsp from 'fs/promises';
 import concatMd from 'concat-md';
 
 const order = [
-    'svgElementInlineImages',
-    'svgTextInlineImages',
-    'svgFileInlineImages',
-    'FetchLite',
-    'FetchLiteResponse',
+    'createUnifier',
+    'truncateAfter',
+    'defaultConfig',
+    'truncateBefore',
+    'truncateCount',
+    'parseMm',
+    'parseMmp',
+    'CreateMmParser',
+    'CreateUnifier',
+    'MmConfig',
+    'MmpUnifierConfig',
+    'ParseMm',
+    'ParseMmp',
+    'Unifier',
+    'UnifierConfig',
+    'UnifierConfigCommon',
+    'UnifierConfigComplete',
+    'UnifierResult',
+    'VariableKindConfig',
+    'applyDefaultsToConfig',
+    'mapConfigToGlobalState',
+    'TokenReaderWithIndex',
+    'getParserAndTokenReader',
+    'logToken',
 ];
 
 const removeHeader = async (itemPath: string) => {
@@ -37,18 +56,24 @@ const removeHeader = async (itemPath: string) => {
 const main = async () => {
     await removeHeader(path.join(__dirname, 'docs'));
 
+    const names = new Set<string>();
+
     const documentation = await concatMd(path.join(__dirname, 'docs'), {
         decreaseTitleLevels: true,
         startTitleLevelAt: 3,
-        ignore: ['**/README.md', '**/fetchLiteFetch.md', '**/inlineImage.md'],
+        ignore: ['**/README.md', 'helpers/**'],
         sorter: (a, b) => {
             const aName = path.parse(a).name;
             const bName = path.parse(b).name;
+            names.add(aName);
+            names.add(bName);
             const aIndex = order.findIndex((s) => s === aName);
             const bIndex = order.findIndex((s) => s === bName);
             return aIndex - bIndex;
         },
     });
+
+    console.log(JSON.stringify(Array.from(names), null, 4));
 
     // Append header file manually so its title levels do not decrease
     const header = await fsp.readFile(path.join(__dirname, 'header.md'));
