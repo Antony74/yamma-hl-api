@@ -2,12 +2,40 @@ import { describe, expect, it } from 'vitest';
 import { createUnifier, parseMm, parseMmp } from '../src/unifier';
 import { exampleFiles } from './examples';
 import { whitespaceTolerantIsEqual } from './whitespaceTolerantIsEqual';
+import { ProgressCallback } from '../yamma/server/src/parseNodesCreatorThread/ParseNodesCreator';
 
 describe(`yamma-unifier`, () => {
     it(`can unify`, async () => {
         const unifier = createUnifier(exampleFiles['example.mm']);
         const result = await unifier.unify(exampleFiles['ununified.mmp']);
         expect(result.text).toEqual(exampleFiles['unified.mmp']);
+    });
+
+    it(`can unify twice (with only one deepParse)`, async () => {
+        const messages: Parameters<ProgressCallback>[] = [];
+        const unifier = createUnifier(exampleFiles['example.mm'], {
+            mm: {
+                progressCallback: (message) => {
+                    messages.push([message]);
+                },
+            },
+        });
+        const [result1, result2] = await Promise.all([
+            unifier.unify(exampleFiles['ununified.mmp']),
+            unifier.unify(exampleFiles['ununified.mmp']),
+        ]);
+
+        expect(result1.text).toEqual(exampleFiles['unified.mmp']);
+        expect(result2.text).toEqual(exampleFiles['unified.mmp']);
+
+        const logs = messages
+            .map((arr) => arr[0])
+            .filter((message) => message.kind === 'log')
+            .map((message) => message.text);
+
+        const setLogs = new Set(logs);
+
+        expect(logs.length).toEqual(setLogs.size); // Unique logs means deepParse was only called once
     });
 
     it(`can unify from parsers and a single thread`, async () => {
@@ -27,7 +55,7 @@ describe(`yamma-unifier`, () => {
     it(`can get a proof`, () => {
         const unifier = createUnifier(exampleFiles['example.mm']);
         const result = unifier.get('th1');
-        
+
         expect(
             whitespaceTolerantIsEqual(result.text, exampleFiles['unified.mmp']),
         ).toEqual(true);
