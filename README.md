@@ -5,7 +5,6 @@ The aim of this package is to provide access to a Metamath unifier - Yamma - fro
 ``` TypeScript
 import { createUnifier } from 'yamma-hl-api';
 const unifier = createUnifier(mmData);
-await unifier.deepParse();
 const result = unifier.unify(mmpData);
 ```
 
@@ -27,7 +26,7 @@ Simple does not necessarily mean best: you could also consider using the Languag
 
 > `const` **createUnifier**: [`CreateUnifier`](#unifierdefinitionstype-aliasescreateunifiermd)
 
-Defined in: [unifier.ts:20](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifier.ts#L20)
+Defined in: [unifier.ts:20](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifier.ts#L20)
 
 
 <a name="truncateafterfunctionstruncateaftermd"></a>
@@ -36,7 +35,7 @@ Defined in: [unifier.ts:20](https://github.com/Antony74/yamma-hl-api/blob/b295e6
 
 > **truncateAfter**(`mmData`, `proofId`, `config?`): `string`
 
-Defined in: [truncateAfter.ts:9](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/truncateAfter.ts#L9)
+Defined in: [truncateAfter.ts:9](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/truncateAfter.ts#L9)
 
 #### Parameters
 
@@ -63,7 +62,7 @@ Defined in: [truncateAfter.ts:9](https://github.com/Antony74/yamma-hl-api/blob/b
 
 > `const` **defaultConfig**: [`UnifierConfigComplete`](#unifierdefinitionstype-aliasesunifierconfigcompletemd)
 
-Defined in: [defaultConfig.ts:10](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/defaultConfig.ts#L10)
+Defined in: [defaultConfig.ts:10](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/defaultConfig.ts#L10)
 
 
 <a name="truncatebeforefunctionstruncatebeforemd"></a>
@@ -72,7 +71,7 @@ Defined in: [defaultConfig.ts:10](https://github.com/Antony74/yamma-hl-api/blob/
 
 > **truncateBefore**(`mmData`, `proofId`, `config?`): `string`
 
-Defined in: [truncateBefore.ts:9](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/truncateBefore.ts#L9)
+Defined in: [truncateBefore.ts:9](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/truncateBefore.ts#L9)
 
 #### Parameters
 
@@ -99,7 +98,7 @@ Defined in: [truncateBefore.ts:9](https://github.com/Antony74/yamma-hl-api/blob/
 
 > **truncateCount**(`mmData`, `count`, `config?`): `string`
 
-Defined in: [truncateCount.ts:5](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/truncateCount.ts#L5)
+Defined in: [truncateCount.ts:5](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/truncateCount.ts#L5)
 
 #### Parameters
 
@@ -126,7 +125,7 @@ Defined in: [truncateCount.ts:5](https://github.com/Antony74/yamma-hl-api/blob/b
 
 > `const` **parseMm**: [`ParseMm`](#unifierdefinitionstype-aliasesparsemmmd)
 
-Defined in: [unifier.ts:106](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifier.ts#L106)
+Defined in: [unifier.ts:118](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifier.ts#L118)
 
 
 <a name="unifiervariablesparsemmpmd"></a>
@@ -135,7 +134,7 @@ Defined in: [unifier.ts:106](https://github.com/Antony74/yamma-hl-api/blob/b295e
 
 > `const` **parseMmp**: [`ParseMmp`](#unifierdefinitionstype-aliasesparsemmpmd)
 
-Defined in: [unifier.ts:120](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifier.ts#L120)
+Defined in: [unifier.ts:132](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifier.ts#L132)
 
 
 <a name="unifierdefinitionstype-aliasescreatemmparsermd"></a>
@@ -144,7 +143,7 @@ Defined in: [unifier.ts:120](https://github.com/Antony74/yamma-hl-api/blob/b295e
 
 > **CreateMmParser** = (...`params`) => `MmParser`
 
-Defined in: [unifierDefinitions.ts:28](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L28)
+Defined in: [unifierDefinitions.ts:27](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L27)
 
 #### Parameters
 
@@ -163,7 +162,7 @@ Defined in: [unifierDefinitions.ts:28](https://github.com/Antony74/yamma-hl-api/
 
 > **CreateUnifier** = (`mmData`, `config?`) => [`Unifier`](#unifierdefinitionstype-aliasesunifiermd)
 
-Defined in: [unifierDefinitions.ts:61](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L61)
+Defined in: [unifierDefinitions.ts:60](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L60)
 
 #### Parameters
 
@@ -186,7 +185,7 @@ Defined in: [unifierDefinitions.ts:61](https://github.com/Antony74/yamma-hl-api/
 
 > **MmConfig** = `Omit`\<`IExtensionSettings` & `object`, `"variableKindsConfiguration"` \| `"proofMode"`\>
 
-Defined in: [unifierDefinitions.ts:30](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L30)
+Defined in: [unifierDefinitions.ts:29](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L29)
 
 
 <a name="unifierdefinitionstype-aliasesmmpunifierconfigmd"></a>
@@ -195,7 +194,7 @@ Defined in: [unifierDefinitions.ts:30](https://github.com/Antony74/yamma-hl-api/
 
 > **MmpUnifierConfig** = `Omit`\<`MmpUnifierArgs` & `object`, `"mmpParser"` \| `"proofMode"`\>
 
-Defined in: [unifierDefinitions.ts:39](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L39)
+Defined in: [unifierDefinitions.ts:38](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L38)
 
 
 <a name="unifierdefinitionstype-aliasesparsemmmd"></a>
@@ -204,7 +203,7 @@ Defined in: [unifierDefinitions.ts:39](https://github.com/Antony74/yamma-hl-api/
 
 > **ParseMm** = (`mmData`, `config?`) => `MmParser`
 
-Defined in: [unifierDefinitions.ts:66](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L66)
+Defined in: [unifierDefinitions.ts:65](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L65)
 
 #### Parameters
 
@@ -227,7 +226,7 @@ Defined in: [unifierDefinitions.ts:66](https://github.com/Antony74/yamma-hl-api/
 
 > **ParseMmp** = (`mmpData`, `mmParser`, `config?`) => `MmpParser`
 
-Defined in: [unifierDefinitions.ts:68](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L68)
+Defined in: [unifierDefinitions.ts:67](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L67)
 
 #### Parameters
 
@@ -254,27 +253,15 @@ Defined in: [unifierDefinitions.ts:68](https://github.com/Antony74/yamma-hl-api/
 
 > **Unifier** = `object`
 
-Defined in: [unifierDefinitions.ts:15](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L15)
+Defined in: [unifierDefinitions.ts:15](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L15)
 
 #### Properties
-
-##### deepParse
-
-> **deepParse**: () => `Promise`\<`void`\>
-
-Defined in: [unifierDefinitions.ts:18](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L18)
-
-###### Returns
-
-`Promise`\<`void`\>
-
-***
 
 ##### get
 
 > **get**: (`proofId`) => [`UnifierResult`](#unifierdefinitionstype-aliasesunifierresultmd)
 
-Defined in: [unifierDefinitions.ts:17](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L17)
+Defined in: [unifierDefinitions.ts:17](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L17)
 
 ###### Parameters
 
@@ -292,15 +279,15 @@ Defined in: [unifierDefinitions.ts:17](https://github.com/Antony74/yamma-hl-api/
 
 > **mmParser**: `MmParser`
 
-Defined in: [unifierDefinitions.ts:19](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L19)
+Defined in: [unifierDefinitions.ts:18](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L18)
 
 ***
 
 ##### unify
 
-> **unify**: (`mmpData`) => [`UnifierResult`](#unifierdefinitionstype-aliasesunifierresultmd)
+> **unify**: (`mmpData`) => `Promise`\<[`UnifierResult`](#unifierdefinitionstype-aliasesunifierresultmd)\>
 
-Defined in: [unifierDefinitions.ts:16](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L16)
+Defined in: [unifierDefinitions.ts:16](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L16)
 
 ###### Parameters
 
@@ -310,7 +297,7 @@ Defined in: [unifierDefinitions.ts:16](https://github.com/Antony74/yamma-hl-api/
 
 ###### Returns
 
-[`UnifierResult`](#unifierdefinitionstype-aliasesunifierresultmd)
+`Promise`\<[`UnifierResult`](#unifierdefinitionstype-aliasesunifierresultmd)\>
 
 
 <a name="unifierdefinitionstype-aliasesunifierconfigmd"></a>
@@ -319,7 +306,7 @@ Defined in: [unifierDefinitions.ts:16](https://github.com/Antony74/yamma-hl-api/
 
 > **UnifierConfig** = `object`
 
-Defined in: [unifierDefinitions.ts:55](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L55)
+Defined in: [unifierDefinitions.ts:54](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L54)
 
 #### Properties
 
@@ -327,7 +314,7 @@ Defined in: [unifierDefinitions.ts:55](https://github.com/Antony74/yamma-hl-api/
 
 > `optional` **common?**: `Partial`\<[`UnifierConfigCommon`](#unifierdefinitionstype-aliasesunifierconfigcommonmd)\>
 
-Defined in: [unifierDefinitions.ts:56](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L56)
+Defined in: [unifierDefinitions.ts:55](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L55)
 
 ***
 
@@ -335,7 +322,7 @@ Defined in: [unifierDefinitions.ts:56](https://github.com/Antony74/yamma-hl-api/
 
 > `optional` **mm?**: `Partial`\<[`MmConfig`](#unifierdefinitionstype-aliasesmmconfigmd)\>
 
-Defined in: [unifierDefinitions.ts:57](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L57)
+Defined in: [unifierDefinitions.ts:56](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L56)
 
 ***
 
@@ -343,7 +330,7 @@ Defined in: [unifierDefinitions.ts:57](https://github.com/Antony74/yamma-hl-api/
 
 > `optional` **unifier?**: `Partial`\<[`MmpUnifierConfig`](#unifierdefinitionstype-aliasesmmpunifierconfigmd)\>
 
-Defined in: [unifierDefinitions.ts:58](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L58)
+Defined in: [unifierDefinitions.ts:57](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L57)
 
 
 <a name="unifierdefinitionstype-aliasesunifierconfigcommonmd"></a>
@@ -352,7 +339,7 @@ Defined in: [unifierDefinitions.ts:58](https://github.com/Antony74/yamma-hl-api/
 
 > **UnifierConfigCommon** = `object`
 
-Defined in: [unifierDefinitions.ts:44](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L44)
+Defined in: [unifierDefinitions.ts:43](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L43)
 
 #### Properties
 
@@ -360,7 +347,7 @@ Defined in: [unifierDefinitions.ts:44](https://github.com/Antony74/yamma-hl-api/
 
 > **proofMode**: `ProofMode`
 
-Defined in: [unifierDefinitions.ts:45](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L45)
+Defined in: [unifierDefinitions.ts:44](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L44)
 
 ***
 
@@ -368,7 +355,7 @@ Defined in: [unifierDefinitions.ts:45](https://github.com/Antony74/yamma-hl-api/
 
 > **variableKindsConfig**: [`VariableKindConfig`](#unifierdefinitionstype-aliasesvariablekindconfigmd)[]
 
-Defined in: [unifierDefinitions.ts:46](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L46)
+Defined in: [unifierDefinitions.ts:45](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L45)
 
 
 <a name="unifierdefinitionstype-aliasesunifierconfigcompletemd"></a>
@@ -377,7 +364,7 @@ Defined in: [unifierDefinitions.ts:46](https://github.com/Antony74/yamma-hl-api/
 
 > **UnifierConfigComplete** = `object`
 
-Defined in: [unifierDefinitions.ts:49](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L49)
+Defined in: [unifierDefinitions.ts:48](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L48)
 
 #### Properties
 
@@ -385,7 +372,7 @@ Defined in: [unifierDefinitions.ts:49](https://github.com/Antony74/yamma-hl-api/
 
 > **common**: [`UnifierConfigCommon`](#unifierdefinitionstype-aliasesunifierconfigcommonmd)
 
-Defined in: [unifierDefinitions.ts:50](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L50)
+Defined in: [unifierDefinitions.ts:49](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L49)
 
 ***
 
@@ -393,7 +380,7 @@ Defined in: [unifierDefinitions.ts:50](https://github.com/Antony74/yamma-hl-api/
 
 > **mm**: [`MmConfig`](#unifierdefinitionstype-aliasesmmconfigmd)
 
-Defined in: [unifierDefinitions.ts:51](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L51)
+Defined in: [unifierDefinitions.ts:50](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L50)
 
 ***
 
@@ -401,7 +388,7 @@ Defined in: [unifierDefinitions.ts:51](https://github.com/Antony74/yamma-hl-api/
 
 > **unifier**: [`MmpUnifierConfig`](#unifierdefinitionstype-aliasesmmpunifierconfigmd)
 
-Defined in: [unifierDefinitions.ts:52](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L52)
+Defined in: [unifierDefinitions.ts:51](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L51)
 
 
 <a name="unifierdefinitionstype-aliasesunifierresultmd"></a>
@@ -410,7 +397,7 @@ Defined in: [unifierDefinitions.ts:52](https://github.com/Antony74/yamma-hl-api/
 
 > **UnifierResult** = `object`
 
-Defined in: [unifierDefinitions.ts:10](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L10)
+Defined in: [unifierDefinitions.ts:10](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L10)
 
 #### Properties
 
@@ -418,7 +405,7 @@ Defined in: [unifierDefinitions.ts:10](https://github.com/Antony74/yamma-hl-api/
 
 > **mmpUnifier**: `MmpUnifier`
 
-Defined in: [unifierDefinitions.ts:12](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L12)
+Defined in: [unifierDefinitions.ts:12](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L12)
 
 ***
 
@@ -426,7 +413,7 @@ Defined in: [unifierDefinitions.ts:12](https://github.com/Antony74/yamma-hl-api/
 
 > **text**: `string`
 
-Defined in: [unifierDefinitions.ts:11](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L11)
+Defined in: [unifierDefinitions.ts:11](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L11)
 
 
 <a name="unifierdefinitionstype-aliasesvariablekindconfigmd"></a>
@@ -435,7 +422,7 @@ Defined in: [unifierDefinitions.ts:11](https://github.com/Antony74/yamma-hl-api/
 
 > **VariableKindConfig** = `object`
 
-Defined in: [unifierDefinitions.ts:22](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L22)
+Defined in: [unifierDefinitions.ts:21](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L21)
 
 #### Properties
 
@@ -443,7 +430,7 @@ Defined in: [unifierDefinitions.ts:22](https://github.com/Antony74/yamma-hl-api/
 
 > **kind**: `string`
 
-Defined in: [unifierDefinitions.ts:23](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L23)
+Defined in: [unifierDefinitions.ts:22](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L22)
 
 ***
 
@@ -451,7 +438,7 @@ Defined in: [unifierDefinitions.ts:23](https://github.com/Antony74/yamma-hl-api/
 
 > **lspSemantictokenType**: `"variable"` \| `"string"` \| `"keyword"`
 
-Defined in: [unifierDefinitions.ts:25](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L25)
+Defined in: [unifierDefinitions.ts:24](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L24)
 
 ***
 
@@ -459,4 +446,4 @@ Defined in: [unifierDefinitions.ts:25](https://github.com/Antony74/yamma-hl-api/
 
 > **workingVarPrefix**: `string`
 
-Defined in: [unifierDefinitions.ts:24](https://github.com/Antony74/yamma-hl-api/blob/b295e6035f397353d7acd1d744fcf5998c5dbdd6/src/unifierDefinitions.ts#L24)
+Defined in: [unifierDefinitions.ts:23](https://github.com/Antony74/yamma-hl-api/blob/01b40d3bc0da593f2fb2b85027f40bd1d52fe63d/src/unifierDefinitions.ts#L23)

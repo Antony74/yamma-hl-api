@@ -13,9 +13,8 @@ export type UnifierResult = {
 };
 
 export type Unifier = {
-    unify: (mmpData: string | MmpParser) => UnifierResult;
+    unify: (mmpData: string | MmpParser) => Promise<UnifierResult>;
     get: (proofId: string) => UnifierResult;
-    deepParse: () => Promise<void>;
     mmParser: MmParser;
 };
 

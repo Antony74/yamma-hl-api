@@ -26,32 +26,56 @@ export const createUnifier: CreateUnifier = (
     const mmParser: MmParser =
         typeof mmData === 'string' ? parseMm(mmData, completeConfig) : mmData;
 
+    const deepParse = async () => {
+        if (completeConfig.mm.singleThread) {
+            mmParser.createParseNodesForAssertionsSync(
+                completeConfig.mm.progressCallback,
+            );
+        } else {
+            await mmParser.createParseNodesForAssertionsAsync(
+                completeConfig.mm.progressCallback,
+            );
+        }
+    };
+
+    let deepParsePromise: Promise<void> | undefined = undefined;
+
+    const unify = (mmpData: string | MmpParser): UnifierResult => {
+        const mmpParser: MmpParser =
+            typeof mmpData === 'string'
+                ? parseMmp(mmpData, mmParser, completeConfig)
+                : mmpData;
+
+        const mmpUnifier = new MmpUnifier({
+            mmpParser,
+            proofMode: completeConfig.common.proofMode,
+            ...completeConfig.unifier,
+        });
+
+        mmpUnifier.unify();
+
+        const result = {
+            text: mmpUnifier.textEditArray[0].newText,
+            mmpUnifier,
+        };
+
+        return result;
+    };
+
     const unifier: Unifier = {
-        unify: (mmpData: string | MmpParser): UnifierResult => {
-            const mmpParser: MmpParser =
-                typeof mmpData === 'string'
-                    ? parseMmp(mmpData, mmParser, completeConfig)
-                    : mmpData;
+        unify: async (mmpData: string | MmpParser): Promise<UnifierResult> => {
+            if (deepParsePromise === undefined) {
+                deepParsePromise = deepParse();
+            }
 
-            const mmpUnifier = new MmpUnifier({
-                mmpParser,
-                proofMode: completeConfig.common.proofMode,
-                ...completeConfig.unifier,
-            });
+            await deepParsePromise;
 
-            mmpUnifier.unify();
-
-            const result = {
-                text: mmpUnifier.textEditArray[0].newText,
-                mmpUnifier,
-            };
-
-            return result;
+            return unify(mmpData);
         },
 
         get: (proofId: string): UnifierResult => {
             const text = `$getproof ${proofId}`;
-            const result = unifier.unify(text);
+            const result = unify(text);
 
             let mmpParser = result.mmpUnifier.mmpParser;
 
@@ -82,19 +106,7 @@ export const createUnifier: CreateUnifier = (
                 mmpParser = parseMmp(result.text, mmParser, completeConfig);
             }
 
-            return unifier.unify(result.text);
-        },
-
-        deepParse: async () => {
-            if (completeConfig.mm.singleThread) {
-                mmParser.createParseNodesForAssertionsSync(
-                    completeConfig.mm.progressCallback,
-                );
-            } else {
-                await mmParser.createParseNodesForAssertionsAsync(
-                    completeConfig.mm.progressCallback,
-                );
-            }
+            return unify(result.text);
         },
 
         mmParser,

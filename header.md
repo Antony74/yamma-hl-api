@@ -5,7 +5,6 @@ The aim of this package is to provide access to a Metamath unifier - Yamma - fro
 ``` TypeScript
 import { createUnifier } from 'yamma-hl-api';
 const unifier = createUnifier(mmData);
-await unifier.deepParse();
 const result = unifier.unify(mmpData);
 ```
 

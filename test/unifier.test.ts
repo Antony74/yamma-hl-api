@@ -6,17 +6,15 @@ import { whitespaceTolerantIsEqual } from './whitespaceTolerantIsEqual';
 describe(`yamma-unifier`, () => {
     it(`can unify`, async () => {
         const unifier = createUnifier(exampleFiles['example.mm']);
-        await unifier.deepParse();
-        const result = unifier.unify(exampleFiles['ununified.mmp']);
+        const result = await unifier.unify(exampleFiles['ununified.mmp']);
         expect(result.text).toEqual(exampleFiles['unified.mmp']);
     });
 
     it(`can unify from parsers and a single thread`, async () => {
         const mmParser = parseMm(exampleFiles['example.mm']);
         const unifier = createUnifier(mmParser, { mm: { singleThread: true } });
-        await unifier.deepParse();
         const mmpParser = parseMmp(exampleFiles['ununified.mmp'], mmParser);
-        const result = unifier.unify(mmpParser);
+        const result = await unifier.unify(mmpParser);
         expect(result.text).toEqual(exampleFiles['unified.mmp']);
     });
 
