@@ -22,7 +22,7 @@ import {
  *
  * @param mmData Metamath source text or an existing parser instance.
  * @param config Optional configuration overrides.
- * @returns A configured unifier instance.
+ * @returns A unifier instance.
  */
 export const createUnifier: CreateUnifier = (
     mmData: string | MmParser,
