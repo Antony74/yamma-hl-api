@@ -7,6 +7,9 @@ import DiagnosticMessageForSyntaxError, {
 import { UnifierConfigComplete } from './unifierDefinitions';
 import { MmParser } from '../yamma/server/src/mm/MmParser';
 
+/**
+ * Default configuration used by the public API when no custom settings are provided.
+ */
 export const defaultConfig: UnifierConfigComplete = {
     common: {
         proofMode: ProofMode.compressed,

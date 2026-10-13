@@ -27,18 +27,23 @@ export class TokenReaderWithIndex extends TokenReader {
                     this.inComment = false;
                 } else if (value.includes('$(')) {
                     throw new Error('Characters $( found in a comment');
-                }
-                if (value.includes('$)')) {
+                } else if (value.includes('$)')) {
                     throw new Error('Characters $) found in a comment');
                 }
             } else {
-                if (value === '${') {
-                    ++this.scopeDepth;
-                } else if (value === '$}') {
-                    --this.scopeDepth;
-                    if (this.scopeDepth < 0) {
-                        throw new Error('$} without corresponding ${');
-                    }
+                switch (value) {
+                    case '$(':
+                        this.inComment = true;
+                        break;
+                    case '${':
+                        ++this.scopeDepth;
+                        break;
+                    case '$}':
+                        --this.scopeDepth;
+                        if (this.scopeDepth < 0) {
+                            throw new Error('$} without corresponding ${');
+                        }
+                        break;
                 }
             }
         }
