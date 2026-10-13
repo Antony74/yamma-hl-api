@@ -20,4 +20,4 @@ const result = unifier.unify(mmpData);
 
 Simple does not necessarily mean best: for some workflows, you may also want to consider the Language Server Protocol approach as recommended [here](https://groups.google.com/g/metamath/c/KyZpCm8Dhhc/m/APyqoXeQAwAJ).
 
-## Documentation
+# Documentation

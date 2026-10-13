@@ -67,7 +67,7 @@ const main = async () => {
 
     const documentation = await concatMd(path.join(__dirname, 'docs'), {
         decreaseTitleLevels: true,
-        startTitleLevelAt: 3,
+        startTitleLevelAt: 2,
         ignore: ['**/README.md', 'helpers/**'],
         sorter: (a, b) => {
             const aIndex = processItem(a);
