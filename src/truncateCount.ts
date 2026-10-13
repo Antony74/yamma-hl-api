@@ -2,6 +2,14 @@ import { MmParserEvents } from '../yamma/server/src/mm/MmParser';
 import { getParserAndTokenReader } from './helpers/getParserAndTokenReader';
 import { UnifierConfig } from './unifierDefinitions';
 
+/**
+ * Truncates the Metamath source after a fixed number of proof statements.
+ *
+ * @param mmData The source text to trim.
+ * @param count Number of proof statements to keep.
+ * @param config Optional configuration for parsing behavior.
+ * @returns The truncated source text.
+ */
 export const truncateCount = (
     mmData: string,
     count: number,
