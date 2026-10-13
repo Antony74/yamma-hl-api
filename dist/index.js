@@ -6,7 +6,11 @@ var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJS = (cb, mod) => function __require() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  try {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  } catch (e) {
+    throw mod = 0, e;
+  }
 };
 var __export = (target, all) => {
   for (var name in all)
@@ -7680,7 +7684,6 @@ __export(index_exports, {
   MmpParserWarningCode: () => MmpParserWarningCode,
   ProvableStatement: () => ProvableStatement,
   addParseNodes: () => addParseNodes,
-  compressOrDecompressProofs: () => compressOrDecompressProofs,
   createLabelToFormulaMap: () => createLabelToFormulaMap,
   createLabelToParseNodeForThreadMap: () => createLabelToParseNodeForThreadMap,
   createMessageDone: () => createMessageDone,
@@ -14877,6 +14880,47 @@ var MmpParser = class _MmpParser {
   //#endregion constructor
 };
 
+// src/defaultConfig.ts
+var defaultConfig = {
+  common: {
+    proofMode: "compressed" /* compressed */,
+    variableKindsConfig: [
+      {
+        kind: "wff",
+        workingVarPrefix: "W",
+        lspSemantictokenType: "variable"
+      },
+      {
+        kind: "setvar",
+        workingVarPrefix: "S",
+        lspSemantictokenType: "string"
+      },
+      {
+        kind: "class",
+        workingVarPrefix: "C",
+        lspSemantictokenType: "keyword"
+      }
+    ]
+  },
+  mm: {
+    maxNumberOfProblems: 100,
+    mmFileFullPath: "",
+    disjVarAutomaticGeneration: "GenerateNone" /* GenerateNone */,
+    labelsOrderInCompressedProof: "mostReferencedFirstAndNiceFormatting" /* mostReferencedFirstAndNiceFormatting */,
+    diagnosticMessageForSyntaxError: ConfigurationManager_default.short,
+    progressCallback: () => {
+    },
+    singleThread: false,
+    createMmParser: (...params) => new MmParser(...params)
+  },
+  unifier: {
+    maxNumberOfHypothesisDispositionsForStepDerivation: 1e5,
+    renumber: true,
+    removeUnusedStatements: true,
+    getProofStripHeader: true
+  }
+};
+
 // yamma/server/src/mmp/FormulaToParseNodeCache.ts
 var FormulaToParseNodeCache = class {
   /** cache for formula recently parsed. It really speeds up the MmpParser, because
@@ -14940,47 +14984,6 @@ var GlobalState = class {
   }
 };
 
-// src/defaultConfig.ts
-var defaultConfig = {
-  common: {
-    proofMode: "compressed" /* compressed */,
-    variableKindsConfig: [
-      {
-        kind: "wff",
-        workingVarPrefix: "W",
-        lspSemantictokenType: "variable"
-      },
-      {
-        kind: "setvar",
-        workingVarPrefix: "S",
-        lspSemantictokenType: "string"
-      },
-      {
-        kind: "class",
-        workingVarPrefix: "C",
-        lspSemantictokenType: "keyword"
-      }
-    ]
-  },
-  mm: {
-    maxNumberOfProblems: 100,
-    mmFileFullPath: "",
-    disjVarAutomaticGeneration: "GenerateNone" /* GenerateNone */,
-    labelsOrderInCompressedProof: "mostReferencedFirstAndNiceFormatting" /* mostReferencedFirstAndNiceFormatting */,
-    diagnosticMessageForSyntaxError: ConfigurationManager_default.short,
-    progressCallback: () => {
-    },
-    singleThread: false,
-    createMmParser: (...params) => new MmParser(...params)
-  },
-  unifier: {
-    maxNumberOfHypothesisDispositionsForStepDerivation: 1e5,
-    renumber: true,
-    removeUnusedStatements: true,
-    getProofStripHeader: true
-  }
-};
-
 // src/helpers/config.ts
 var applyDefaultsToConfig = (config) => {
   return config ? {
@@ -15026,18 +15029,23 @@ var TokenReaderWithIndex = class extends TokenReader {
           this.inComment = false;
         } else if (value.includes("$(")) {
           throw new Error("Characters $( found in a comment");
-        }
-        if (value.includes("$)")) {
+        } else if (value.includes("$)")) {
           throw new Error("Characters $) found in a comment");
         }
       } else {
-        if (value === "${") {
-          ++this.scopeDepth;
-        } else if (value === "$}") {
-          --this.scopeDepth;
-          if (this.scopeDepth < 0) {
-            throw new Error("$} without corresponding ${");
-          }
+        switch (value) {
+          case "$(":
+            this.inComment = true;
+            break;
+          case "${":
+            ++this.scopeDepth;
+            break;
+          case "$}":
+            --this.scopeDepth;
+            if (this.scopeDepth < 0) {
+              throw new Error("$} without corresponding ${");
+            }
+            break;
         }
       }
     }
@@ -15084,6 +15092,76 @@ var getParserAndTokenReader = (config, mmData) => {
   const { createMmParser } = completeConfig.mm;
   const mmParser = createMmParser(mapConfigToGlobalState(completeConfig));
   return { tokenReader, mmParser };
+};
+
+// src/truncateAfter.ts
+var truncateAfter = (mmData, proofId, config) => {
+  const { mmParser, tokenReader } = getParserAndTokenReader(config, mmData);
+  let start = 0;
+  let end = mmData.length;
+  let closingString = "";
+  let found = false;
+  mmParser.on(
+    "newProvableStatement" /* newProvableStatement */,
+    (parsedArgs) => {
+      if (parsedArgs.labeledStatement.Label === proofId) {
+        end = tokenReader.lastIndex + tokenReader.lastTokenLength;
+        closingString = tokenReader.getClosingString();
+        found = true;
+      }
+    }
+  );
+  mmParser.parseFromTokenReader(tokenReader);
+  if (!found) {
+    throw new Error(`proofId ${proofId} was not found`);
+  }
+  return [mmData.substring(start, end), closingString].join("");
+};
+
+// src/truncateBefore.ts
+var truncateBefore = (mmData, proofId, config) => {
+  const { mmParser, tokenReader } = getParserAndTokenReader(config, mmData);
+  let start = 0;
+  let end = 0;
+  let closingString = "";
+  let found = false;
+  mmParser.on(
+    "newProvableStatement" /* newProvableStatement */,
+    (parsedArgs) => {
+      if (found === true) {
+      } else if (parsedArgs.labeledStatement.Label === proofId) {
+        found = true;
+      } else {
+        end = tokenReader.lastIndex + tokenReader.lastTokenLength;
+        closingString = tokenReader.getClosingString();
+      }
+    }
+  );
+  mmParser.parseFromTokenReader(tokenReader);
+  if (!found) {
+    throw new Error(`proofId ${proofId} was not found`);
+  }
+  if (end === 0) {
+    throw new Error(`can't truncate before the very first proof`);
+  }
+  return [mmData.substring(start, end), closingString].join("");
+};
+
+// src/truncateCount.ts
+var truncateCount = (mmData, count, config) => {
+  const { mmParser, tokenReader } = getParserAndTokenReader(config, mmData);
+  let start = 0;
+  let end = mmData.length;
+  let closingString = "";
+  mmParser.on("newProvableStatement" /* newProvableStatement */, () => {
+    --count;
+    if (count === 0) {
+      end = tokenReader.lastIndex + tokenReader.lastTokenLength;
+      closingString = tokenReader.getClosingString();
+    }
+  });
+  mmParser.parseFromTokenReader(tokenReader);
+  return [mmData.substring(start, end), closingString].join("");
 };
 
 // yamma/server/src/stepDerivation/EHypsDerivation.ts
@@ -16728,24 +16806,43 @@ var MmpUnifier = class {
 var createUnifier = (mmData, config) => {
   const completeConfig = applyDefaultsToConfig(config);
   const mmParser = typeof mmData === "string" ? parseMm(mmData, completeConfig) : mmData;
+  const deepParse = async () => {
+    if (completeConfig.mm.singleThread) {
+      mmParser.createParseNodesForAssertionsSync(
+        completeConfig.mm.progressCallback
+      );
+    } else {
+      await mmParser.createParseNodesForAssertionsAsync(
+        completeConfig.mm.progressCallback
+      );
+    }
+  };
+  let deepParsePromise = void 0;
+  const unify = (mmpData) => {
+    const mmpParser = typeof mmpData === "string" ? parseMmp(mmpData, mmParser, completeConfig) : mmpData;
+    const mmpUnifier = new MmpUnifier({
+      mmpParser,
+      proofMode: completeConfig.common.proofMode,
+      ...completeConfig.unifier
+    });
+    mmpUnifier.unify();
+    const result = {
+      text: mmpUnifier.textEditArray[0].newText,
+      mmpUnifier
+    };
+    return result;
+  };
   const unifier = {
-    unify: (mmpData) => {
-      const mmpParser = typeof mmpData === "string" ? parseMmp(mmpData, mmParser, completeConfig) : mmpData;
-      const mmpUnifier = new MmpUnifier({
-        mmpParser,
-        proofMode: completeConfig.common.proofMode,
-        ...completeConfig.unifier
-      });
-      mmpUnifier.unify();
-      const result = {
-        text: mmpUnifier.textEditArray[0].newText,
-        mmpUnifier
-      };
-      return result;
+    unify: async (mmpData) => {
+      if (deepParsePromise === void 0) {
+        deepParsePromise = deepParse();
+      }
+      await deepParsePromise;
+      return unify(mmpData);
     },
     get: (proofId) => {
       const text = `$getproof ${proofId}`;
-      const result = unifier.unify(text);
+      const result = unify(text);
       let mmpParser = result.mmpUnifier.mmpParser;
       if (result.text.includes(text) && mmpParser.diagnostics.length === 0) {
         mmpParser.diagnostics.push({
@@ -16763,18 +16860,7 @@ var createUnifier = (mmData, config) => {
         result.text = result.text.split("\n").slice(3).join("\n");
         mmpParser = parseMmp(result.text, mmParser, completeConfig);
       }
-      return unifier.unify(result.text);
-    },
-    deepParse: async () => {
-      if (completeConfig.mm.singleThread) {
-        mmParser.createParseNodesForAssertionsSync(
-          completeConfig.mm.progressCallback
-        );
-      } else {
-        await mmParser.createParseNodesForAssertionsAsync(
-          completeConfig.mm.progressCallback
-        );
-      }
+      return unify(result.text);
     },
     mmParser
   };
@@ -16803,169 +16889,6 @@ var parseMmp = (mmpData, mmParser, config) => {
   mmpParser.parse();
   return mmpParser;
 };
-
-// src/helpers/getChunksForCompressOrDecompressProofs.ts
-var getChunksForCompressOrDecompressProofs = (command, mmData, proofsToReplace, unifier, actionCallback = () => {
-}) => {
-  const chunks = [];
-  chunks.push(
-    mmData.substring(
-      0,
-      proofsToReplace.length ? proofsToReplace[0].start : mmData.length
-    )
-  );
-  for (let index = 0; index < proofsToReplace.length; ++index) {
-    const { label, start, end } = proofsToReplace[index];
-    const nextStart = index + 1 < proofsToReplace.length ? proofsToReplace[index + 1].start : mmData.length;
-    const result = unifier.get(label);
-    const mmpProof = result.mmpUnifier.uProof;
-    const textForFormula = mmpProof?.lastMmpProofStep?.textForFormula;
-    let proofStatement = mmpProof?.proofStatement?.toText().trim();
-    if (mmpProof && mmpProof.isProofComplete && textForFormula && proofStatement) {
-      actionCallback(label);
-      const proofDefinition = `${label} $p ${textForFormula}`;
-      const indent = start - mmData.lastIndexOf("\n", start) + 1;
-      if (proofStatement.startsWith("$= ")) {
-        proofStatement = "$=\n" + proofStatement.slice(3).trim();
-      }
-      proofStatement = proofStatement.split("\n").map((s) => s.trim()).join("\n" + " ".repeat(indent));
-      chunks.push(proofDefinition);
-      chunks.push(" ");
-      chunks.push(proofStatement);
-    } else {
-      chunks.push(mmData.substring(start, end));
-    }
-    chunks.push(mmData.substring(end, nextStart));
-  }
-  return chunks;
-};
-
-// src/helpers/parseForCompressOrDecompressProofs.ts
-var parseForCompressOrDecompressProofs = (mmParser, tokenReader, proofIds, all) => {
-  const proofsToReplace = [];
-  const proofsFound = Object.fromEntries(
-    proofIds.map((label) => {
-      return [label, false];
-    })
-  );
-  let lastLabelStart;
-  mmParser.on("newLabel" /* newLabel */, () => {
-    lastLabelStart = tokenReader.lastIndex;
-  });
-  mmParser.on(
-    "newProvableStatement" /* newProvableStatement */,
-    (assertionArgs) => {
-      const label = assertionArgs.labeledStatement.Label;
-      if (all || proofsFound[label] !== void 0) {
-        const start = lastLabelStart;
-        const end = tokenReader.lastIndex + tokenReader.lastTokenLength;
-        proofsToReplace.push({ label, start, end });
-        proofsFound[label] = true;
-      }
-    }
-  );
-  mmParser.parseFromTokenReader(tokenReader);
-  const notFound = Object.entries(proofsFound).filter(([_label, found]) => found === false).map(([label]) => `${label} not found`);
-  if (notFound.length) {
-    throw new Error(notFound.join("\n"));
-  }
-  return proofsToReplace;
-};
-
-// src/compressOrDecompressProofs.ts
-var compressOrDecompressProofs = (command, mmData, proofIds, all, config, actionCallback) => {
-  const completeConfig = applyDefaultsToConfig(config);
-  completeConfig.common.proofMode = command === "compress" ? "compressed" /* compressed */ : "normal" /* normal */;
-  const { mmParser, tokenReader } = getParserAndTokenReader(
-    completeConfig,
-    mmData
-  );
-  const proofsToReplace = parseForCompressOrDecompressProofs(
-    mmParser,
-    tokenReader,
-    proofIds,
-    all
-  );
-  const unifier = createUnifier(mmParser, completeConfig);
-  const chunks = getChunksForCompressOrDecompressProofs(
-    command,
-    mmData,
-    proofsToReplace,
-    unifier,
-    actionCallback
-  );
-  return chunks.join("");
-};
-
-// src/truncateAfter.ts
-var truncateAfter = (mmData, proofId, config) => {
-  const { mmParser, tokenReader } = getParserAndTokenReader(config, mmData);
-  let start = 0;
-  let end = mmData.length;
-  let closingString = "";
-  let found = false;
-  mmParser.on(
-    "newProvableStatement" /* newProvableStatement */,
-    (parsedArgs) => {
-      if (parsedArgs.labeledStatement.Label === proofId) {
-        end = tokenReader.lastIndex + tokenReader.lastTokenLength;
-        closingString = tokenReader.getClosingString();
-        found = true;
-      }
-    }
-  );
-  mmParser.parseFromTokenReader(tokenReader);
-  if (!found) {
-    throw new Error(`proofId ${proofId} was not found`);
-  }
-  return [mmData.substring(start, end), closingString].join("");
-};
-
-// src/truncateBefore.ts
-var truncateBefore = (mmData, proofId, config) => {
-  const { mmParser, tokenReader } = getParserAndTokenReader(config, mmData);
-  let start = 0;
-  let end = 0;
-  let closingString = "";
-  let found = false;
-  mmParser.on(
-    "newProvableStatement" /* newProvableStatement */,
-    (parsedArgs) => {
-      if (found === true) {
-      } else if (parsedArgs.labeledStatement.Label === proofId) {
-        found = true;
-      } else {
-        end = tokenReader.lastIndex + tokenReader.lastTokenLength;
-        closingString = tokenReader.getClosingString();
-      }
-    }
-  );
-  mmParser.parseFromTokenReader(tokenReader);
-  if (!found) {
-    throw new Error(`proofId ${proofId} was not found`);
-  }
-  if (end === 0) {
-    throw new Error(`can't truncate before the very first proof`);
-  }
-  return [mmData.substring(start, end), closingString].join("");
-};
-
-// src/truncateCount.ts
-var truncateCount = (mmData, count, config) => {
-  const { mmParser, tokenReader } = getParserAndTokenReader(config, mmData);
-  let start = 0;
-  let end = mmData.length;
-  let closingString = "";
-  mmParser.on("newProvableStatement" /* newProvableStatement */, () => {
-    --count;
-    if (count === 0) {
-      end = tokenReader.lastIndex + tokenReader.lastTokenLength;
-      closingString = tokenReader.getClosingString();
-    }
-  });
-  mmParser.parseFromTokenReader(tokenReader);
-  return [mmData.substring(start, end), closingString].join("");
-};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   MmParser,
@@ -16977,7 +16900,6 @@ var truncateCount = (mmData, count, config) => {
   MmpParserWarningCode,
   ProvableStatement,
   addParseNodes,
-  compressOrDecompressProofs,
   createLabelToFormulaMap,
   createLabelToParseNodeForThreadMap,
   createMessageDone,
