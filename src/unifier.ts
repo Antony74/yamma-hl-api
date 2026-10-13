@@ -17,6 +17,8 @@ import {
     UnifierResult,
 } from './unifierDefinitions';
 
+import { ProgressCallback } from '../yamma/server/src/parseNodesCreatorThread/ParseNodesCreator';
+
 /**
  * Creates a proof unifier for the supplied Metamath database.
  *
@@ -34,15 +36,31 @@ export const createUnifier: CreateUnifier = (
         typeof mmData === 'string' ? parseMm(mmData, completeConfig) : mmData;
 
     const deepParse = async () => {
+        let count = 1;
+
+        const progressCallback: ProgressCallback = (message) => {
+            if (message.kind === 'progress') {
+                count = message.count;
+            }
+            completeConfig.mm.progressCallback(message);
+        }
+
         if (completeConfig.mm.singleThread) {
             mmParser.createParseNodesForAssertionsSync(
-                completeConfig.mm.progressCallback,
+                progressCallback,
             );
         } else {
             await mmParser.createParseNodesForAssertionsAsync(
-                completeConfig.mm.progressCallback,
+                progressCallback,
             );
         }
+
+        // Send a final progress message to indicate we are complete
+        progressCallback({
+            kind: 'progress',
+            index: count,
+            count,
+        });
     };
 
     let deepParsePromise: Promise<void> | undefined = undefined;
