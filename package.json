@@ -23,17 +23,17 @@
     "homepage": "https://github.com/Antony74/yamma-hl-api#readme",
     "description": "High level api for Yamma's unifier (Yamma's A MetaMath proof Assistant)",
     "devDependencies": {
-        "@types/node": "^26.5.1",
-        "@vitest/coverage-v8": "^5.0.0",
+        "@types/node": "^26.6.5",
+        "@vitest/coverage-v8": "^5.0.4",
         "concat-md": "^0.5.1",
         "esbuild": "^0.28.2",
-        "prettier": "^3.9.6",
+        "prettier": "^3.9.10",
         "rimraf": "^6.1.3",
         "tsx": "^4.23.15",
         "typedoc": "^0.28.20",
         "typedoc-plugin-markdown": "^4.13.1",
         "typescript": "^6.0.3",
-        "vitest": "^5.0.0"
+        "vitest": "^5.0.4"
     },
     "prettier": {
         "tabWidth": 4,
