@@ -16807,15 +16807,27 @@ var createUnifier = (mmData, config) => {
   const completeConfig = applyDefaultsToConfig(config);
   const mmParser = typeof mmData === "string" ? parseMm(mmData, completeConfig) : mmData;
   const deepParse = async () => {
+    let count = 1;
+    const progressCallback = (message) => {
+      if (message.kind === "progress") {
+        count = message.count;
+      }
+      completeConfig.mm.progressCallback(message);
+    };
     if (completeConfig.mm.singleThread) {
       mmParser.createParseNodesForAssertionsSync(
-        completeConfig.mm.progressCallback
+        progressCallback
       );
     } else {
       await mmParser.createParseNodesForAssertionsAsync(
-        completeConfig.mm.progressCallback
+        progressCallback
       );
     }
+    progressCallback({
+      kind: "progress",
+      index: count,
+      count
+    });
   };
   let deepParsePromise = void 0;
   const unify = (mmpData) => {
