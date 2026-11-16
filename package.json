@@ -2,8 +2,10 @@
     "name": "yamma-hl-api",
     "version": "1.0.1",
     "main": "dist/index.js",
+    "browser": "dist/index.browser.mjs",
     "scripts": {
-        "build": "rimraf dist && node build.js && tsc",
+        "build": "rimraf dist && node build.js && node build-browser.js && tsc",
+        "build:browser": "node build-browser.js",
         "doc": "rimraf docs && typedoc && tsx docs.ts",
         "prepare": "node prepare.js",
         "prettier": "prettier --write .",
